@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Для моей любимой Маши</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink-light: #ffebf3;
+            --pink-medium: #ff9ec6;
+            --pink-dark: #d23669;
+            --red-heart: #ff2e63;
+            --cream: #fffafb;
+            --brown: #5a3e3e;
+            --white: #ffffff;
+            --neon-pink: #ff6b9e;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'EB Garamond', serif;
+            background-color: var(--cream);
+            color: var(--brown);
+            line-height: 1.7;
+            font-size: 1.1rem;
+            font-weight: 400;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Анимация сердечек */
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0.6;
+            animation: float 15s linear infinite;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-20vh) scale(1);
+                opacity: 0;
+            }
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Dancing Script', cursive;
+            font-weight: 700;
+        }
+        
+        h1 {
+            color: var(--pink-dark);
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+        
+        h2 {
+            font-size: 2.4rem;
+            color: var(--pink-dark);
+            margin: 1.5rem 0 1rem;
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            color: var(--pink-dark);
+            margin: 1rem 0 0.5rem;
+            text-shadow: 0 0 3px var(--neon-pink), 
+                         0 0 5px var(--neon-pink),
+                         0 0 7px var(--neon-pink);
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        header {
+            background-color: var(--pink-light);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            position: relative;
+        }
+        
+        .intro {
+            text-align: center;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            margin: 2rem 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            backdrop-filter: blur(2px);
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem 0;
+        }
+        
+        .photo-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .photo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        
+        .photo-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            flex-grow: 1;
+        }
+        
+        .photo-card .caption {
+            padding: 1rem;
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+        
+        .photo-card .caption p {
+            color: var(--white);
+            text-shadow: 0 0 2px var(--neon-pink),
+                         0 0 4px var(--neon-pink),
+                         0 0 6px var(--pink-dark);
+            font-weight: bold;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--pink-light);
+            margin-top: 3rem;
+            position: relative;
+        }
+        
+        .footer-heart {
+            color: var(--pink-dark);
+            font-size: 1.4em;
+        }
+        
+        .memory-page {
+            display: none;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            margin: 2rem 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            backdrop-filter: blur(2px);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.6rem 1.5rem;
+            background-color: var(--pink-light);
+            color: var(--pink-dark);
+            text-decoration: none;
+            border-radius: 30px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .back-btn:hover {
+            background-color: var(--pink-dark);
+            color: var(--white);
+        }
+        
+        .visible {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Адаптация для мобильных устройств */
+        @media (max-width: 768px) {
+            body {
+                font-size: 1rem;
+            }
+            
+            h1 {
+                font-size: 2.4rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            h3 {
+                font-size: 1.5rem;
+            }
+            
+            .container {
+                padding: 0.8rem;
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+            
+            .photo-card img {
+                height: 220px;
+            }
+            
+            .intro, .memory-page {
+                padding: 1.5rem;
+            }
+            
+            .heart {
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .photo-card img {
+                height: 200px;
+            }
+            
+            .memory-page {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    
+    <header>
+        <div class="container">
+            <h1>Для моей любимой Маши</h1>
+            <p>От твоего Виталика</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="intro">
+            <h2>Дорогая Машенька!</h2>
+            <p>Этот сайт я создал специально для тебя, чтобы напомнить, как сильно я тебя люблю и как дорожу каждым моментом, проведенным вместе.</p>
+            <p>Ты — самое прекрасное, что случилось в моей жизни, и я хочу, чтобы ты всегда это помнила.</p>
+            <p>Нажимай на фотографии, чтобы увидеть, чем запомнился мне каждый из этих дней.</p>
+        </section>
+        
+        <section class="gallery">
+            <!-- Фото 1 -->
+            <div class="photo-card" onclick="showMemory('memory1')">
+                <img src="images/lastden.jpg" alt="Последняя ночь перед моим уездом">
+                <div class="caption">
+                    <h3>Последняя ночь перед уездом</h3>
+                    <p>28 августа 2023</p>
+                </div>
+            </div>
+            
+            <!-- Фото 2 -->
+            <div class="photo-card" onclick="showMemory('memory2')">
+                <img src="images/ng1.jpg" alt="Новый год 2024">
+                <div class="caption">
+                    <h3>Новый год 2024</h3>
+                    <p>1 января 2024</p>
+                </div>
+            </div>
+            
+            <!-- Фото 3 -->
+            <div class="photo-card" onclick="showMemory('memory3')">
+                <img src="images/vipusk.jpg" alt="N=Твой выпускной">
+                <div class="caption">
+                    <h3>Твой выпускной</h3>
+                    <p>30 июля 2024</p>
+                </div>
+            </div>
+            
+            <!-- Фото 4 -->
+            <div class="photo-card" onclick="showMemory('memory4')">
+                <img src="images/gorod.jpg" alt="Приехала учится в город (наша встреча)">
+                <div class="caption">
+                    <h3>Приехала учится в город (наша встреча)</h3>
+                    <p>13 сентября 2024</p>
+                </div>
+            </div>
+            
+            <!-- Фото 5 -->
+            <div class="photo-card" onclick="showMemory('memory5')">
+                <img src="images/ng2.jpg" alt="Новогодняя ночь 2025">
+                <div class="caption">
+                    <h3>Новогодняя ночь 2025</h3>
+                    <p>1 января 2025</p>
+                </div>
+            </div>
+            
+            <!-- Фото 6 -->
+            <div class="photo-card" onclick="showMemory('memory6')">
+                <img src="images/shas.jpg" alt="нынешнее время">
+                <div class="caption">
+                    <h3>нынешнее время</h3>
+                    <p>15 марта 2023</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Страницы воспоминаний -->
+        <div id="memory1" class="memory-page">
+            <h2>Последняя ночь перед уездом</h2>
+            <p>Машенька, эта та самая предпоследняя ночь перед моим уездом. В тот вечер казалось что все как обычно и я никуда не уезжаю и не буду уезжать.</p>
+            <p>Мы замечательно проводили с тобой время, ты была как обычно неотразима и мила. Мы лежали и что то смотрели, но чем ближе время было к следующему утру, тем грустнее становилось. </p>
+            <p>И вот я провожаю тебя домой неся на своих плечах, ты снимаешь очень красивую луну, такю же красивую как и ты. Проводив тебя и дождавшись уезда на следующий день, мне стало очень грустно и тоскливо, что я увижу тебя очень не скоро.</p>
+            <button class="back-btn" onclick="hideMemory('memory1')">Вернуться назад</button>
+        </div>
+        
+        <div id="memory2" class="memory-page">
+            <h2>Новый год 2024</h2>
+            <p>Встречать новый год 2024 было волшебно. Нас с тобой пригласила Гайдамакина отметить с ними, мы сидели виселились и пили шампанское.</p>
+            <p>Ты была очень красива и украшала этот новый год, я помню как мы танцевали и целовались, как пели и как я кричал чуть не сорвав горло.</p>
+            <p>Тот новый год был волшебным не только потому, что он был проведен с тобой, но и потому что, я заработал протит правого уха ведь ты не захотела закрывать окно хахахах.</p>
+            <button class="back-btn" onclick="hideMemory('memory2')">Вернуться назад</button>
+        </div>
+        
+        <div id="memory3" class="memory-page">
+            <h2>Твой выпускной</h2>
+            <p>Твой выпускной, одно из самых важных событий в твоей жизни. Я помню как ты расстроилась что я не успеваю на твой выпускной. И до приезда я тебе не говорил что успею, но по секрету успел приехать и пришел к твоему дому.</p>
+            <p>Я никогда не забуду твои счастливые глаза в тот момент, когда ты меня увидела. Мне стало очень тепло на душе и приятно, особенно порадовало что мой сюрприз с приездом удался.</p>
+            <p>В свой выпускной ты была самая неотразимая, самая красивая и умопобрачительная (вроде так пишется). На своем выпускном ты затмила всех своим образом и танцем.</p>
+            <button class="back-btn" onclick="hideMemory('memory3')">Вернуться назад</button>
+        </div>
+        
+        <div id="memory4" class="memory-page">
+            <h2>Приехала учится в город (наша встреча)</h2>
+            <p>Так же один из дней, который мне запомнился, это день когда мы первый раз встретились и пошли погулять в городе.</p>
+            <p>Как я помню мы встретились у пирамиды и в тот день ты была каривее обычного, но потом я понял что просто давно не видел тебя в жизни, и ты всегда такая красивая. Мы с тобой прогулялись и пошли в жарпиццу, где балтали и кушали.</p>
+            <p>Почему то мне очень запомнился этот день, хоть он и обычный. Возможно запомнился своей простотой, вайбом и мыслью что мы снова будем видится.</p>
+            <button class="back-btn" onclick="hideMemory('memory4')">Вернуться назад</button>
+        </div>
+        
+        <div id="memory5" class="memory-page">
+            <h2>Новогодняя ночь 2025</h2>
+            <p>И вот мы встречаем уже третий новый год вместе, но уже с семьей.</p>
+            <p>Я помню как мы приехали к свете, накрыли стол и дождались всех. Как смотрели переделаные фильмы 80-х на которые ругалась моя бабушка, как мы все общались, фоткались и весилилсь. Мы дождались курантов, зажгли бенгальские огни и все радовались. После мы вышли на улицу и смотрели на салют, ты была укутана в мою куртку и в красном длинном колпаке.</p>
+            <p>Без тебя бы этот новый год был не таким, каким он стал.</p>
+            <button class="back-btn" onclick="hideMemory('memory5')">Вернуться назад</button>
+        </div>
+        
+        <div id="memory6" class="memory-page">
+            <h2>нынешнее время</h2>
+            <p>Нынешнее время. Про это время мне мало есть что сказать, ведь я сижу и пишу этот весь текст на ходу прямо сейчас.</p>
+            <p>Сижу и пишу вспоминая все приятные моменты проведенные с тобой вместе. Ты всегда меня поддерживала и оставалась рядом как самая любищая девушка .</p>
+            <p>Не знаю понравится ли тебе такой подарок, но знай что я люблю тебя всем сердцем и хочу, что бы мы были всегда вместе и поддерживали друг друга. Я хочу еще миллион хороших воспоминаний и моментов с тобой. Прости что мало красивых слов, я не умею говорить красиво, я пишу все как думаю, ты самый дорогой мне человек.</p>
+            <button class="back-btn" onclick="hideMemory('memory6')">Вернуться назад</button>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>С любовью, твой Виталик <span class="footer-heart">❤</span></p>
+            <p>2024</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Функции для показа/скрытия страниц воспоминаний
+        function showMemory(memoryId) {
+            document.querySelectorAll('.memory-page').forEach(page => {
+                page.classList.remove('visible');
+            });
+            document.getElementById(memoryId).classList.add('visible');
+            document.getElementById(memoryId).scrollIntoView({behavior: 'smooth'});
+        }
+        
+        function hideMemory(memoryId) {
+            document.getElementById(memoryId).classList.remove('visible');
+            document.querySelector('.gallery').scrollIntoView({behavior: 'smooth'});
+        }
+        
+        // Создание плавающих сердечек
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            const colors = ['#ff2e63', '#ff9ec6', '#d23669'];
+            const emojis = ['❤', '🧡', '💗', '💖', '💘'];
+            
+            for (let i = 0; i < 30; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = 10 + Math.random() * 20 + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.fontSize = (15 + Math.random() * 15) + 'px';
+                heartsContainer.appendChild(heart);
+            }
+        }
+        
+        // Запуск при загрузке страницы
+        window.onload = function() {
+            createHearts();
+        };
+    </script>
+</body>
+</html>
